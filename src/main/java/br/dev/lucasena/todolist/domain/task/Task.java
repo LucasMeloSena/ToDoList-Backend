@@ -9,12 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-enum TaskPriority {
-    low,
-    medium,
-    high
-}
-
 @Data
 @Entity(name = "tasks")
 public class Task {

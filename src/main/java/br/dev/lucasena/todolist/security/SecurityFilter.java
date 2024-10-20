@@ -1,6 +1,7 @@
 package br.dev.lucasena.todolist.security;
 
 import br.dev.lucasena.todolist.core.cases.auth.GenerateTokenUseCase;
+import br.dev.lucasena.todolist.core.cases.auth.ValidateTokenUseCase;
 import br.dev.lucasena.todolist.core.exceptions.user.UserNotFoundException;
 import br.dev.lucasena.todolist.domain.user.User;
 import br.dev.lucasena.todolist.repositories.IUserRepository;
@@ -22,14 +23,14 @@ import java.util.UUID;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
-    GenerateTokenUseCase tokenService;
+    ValidateTokenUseCase validateTokenUseCase;
     @Autowired
     IUserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = this.recoverToken(request);
-        String id = tokenService.validateToken(token);
+        String id = validateTokenUseCase.execute(token);
 
         if(id != null){
             User user = null;
