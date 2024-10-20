@@ -7,6 +7,5 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TaskMapper {
-    @Mapping(source = "name", target = "name")
     void updateTaskFromDto(TaskDTO dto, @MappingTarget Task entity);
 }

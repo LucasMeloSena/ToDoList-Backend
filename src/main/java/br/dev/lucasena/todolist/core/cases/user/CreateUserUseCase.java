@@ -2,7 +2,6 @@ package br.dev.lucasena.todolist.core.cases.user;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import br.dev.lucasena.todolist.core.exceptions.user.UserAlreadyExistsException;
-import br.dev.lucasena.todolist.core.exceptions.user.UserNotFoundException;
 import br.dev.lucasena.todolist.domain.user.User;
 import br.dev.lucasena.todolist.domain.user.UserDTO;
 import br.dev.lucasena.todolist.repositories.IUserRepository;
