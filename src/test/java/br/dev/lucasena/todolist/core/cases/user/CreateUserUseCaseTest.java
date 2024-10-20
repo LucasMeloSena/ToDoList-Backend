@@ -57,7 +57,7 @@ class CreateUserUseCaseTest {
     }
 
     @Test
-    @DisplayName("should throw exception if user already exists")
+    @DisplayName("should throws exception if user already exists")
     void execute2() {
         UserDTO userDTO = new UserDTO();
         userDTO.setName("John Doe");
