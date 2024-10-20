@@ -51,7 +51,9 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Response<Task>> update(@RequestBody TaskDTO taskToUpdate, @PathVariable String id) throws Exception {
-        Task updatedTask = updateTaskUseCase.execute(taskToUpdate, id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        Task updatedTask = updateTaskUseCase.execute(taskToUpdate, id, user.getId());
         Response<Task> response = new Response<>(updatedTask, "Task updated successfully", false);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

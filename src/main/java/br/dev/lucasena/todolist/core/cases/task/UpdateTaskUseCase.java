@@ -25,11 +25,10 @@ public class UpdateTaskUseCase {
     private TaskMapper mapper;
 
     @Transactional
-    public Task execute(TaskDTO dto, String id) throws Exception {
-        UUID userIdDaRequisicaoDoUsuarioAutenticado = UUID.fromString("b1dbb317-de8b-4213-b27b-cd1f7a443e51");
+    public Task execute(TaskDTO dto, String id, UUID userId) throws Exception {
         Task task = taskRepository.findById(UUID.fromString(id)).orElseThrow(TaskNotFoundException::new);
 
-        if (!task.getUser().getId().equals(userIdDaRequisicaoDoUsuarioAutenticado)) {
+        if (!task.getUser().getId().equals(userId)) {
             throw new UserNotAllowedException();
         }
 
