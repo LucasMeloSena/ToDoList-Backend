@@ -7,12 +7,15 @@ import br.dev.lucasena.todolist.domain.Response;
 import br.dev.lucasena.todolist.domain.task.Task;
 import br.dev.lucasena.todolist.domain.task.TaskDTO;
 
+import br.dev.lucasena.todolist.domain.user.User;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +42,9 @@ public class TaskController {
     @GetMapping()
     @ResponseBody
     public ResponseEntity<Response<List<Task>>> findByUser() {
-        List<Task> tasks = findTasksByUserUseCase.execute();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        List<Task> tasks = findTasksByUserUseCase.execute(user.getId());
         Response<List<Task>> response = new Response<>(tasks, "Tasks retrieved successfully", false);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

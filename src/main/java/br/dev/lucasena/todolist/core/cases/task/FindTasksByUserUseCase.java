@@ -13,8 +13,7 @@ public class FindTasksByUserUseCase {
     @Autowired
     private ITaskRepository taskRepository;
 
-    public List<Task> execute() {
-        String userId = "9fe6d793-0a6e-4ff3-959b-23e08da2131c";
-        return taskRepository.findByUserId(UUID.fromString(userId));
+    public List<Task> execute(UUID userId) {
+        return taskRepository.findByUserId(userId);
     }
 }
