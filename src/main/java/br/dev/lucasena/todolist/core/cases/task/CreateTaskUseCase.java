@@ -1,5 +1,10 @@
 package br.dev.lucasena.todolist.core.cases.task;
 
+import java.time.LocalDate;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.dev.lucasena.todolist.core.exceptions.task.CurrentDateAfterInsertedDateException;
 import br.dev.lucasena.todolist.core.exceptions.task.StartDateIsAfterEndDateException;
 import br.dev.lucasena.todolist.core.exceptions.user.UserNotFoundException;
@@ -8,10 +13,6 @@ import br.dev.lucasena.todolist.domain.task.TaskDTO;
 import br.dev.lucasena.todolist.domain.user.User;
 import br.dev.lucasena.todolist.repositories.ITaskRepository;
 import br.dev.lucasena.todolist.repositories.IUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 public class CreateTaskUseCase {
@@ -23,11 +24,11 @@ public class CreateTaskUseCase {
     public Task execute(TaskDTO task) throws Exception {
         User existsUser = this.userRepository.findById(task.getUser_id()).orElseThrow(UserNotFoundException::new);
 
-        LocalDateTime currentDate = LocalDateTime.now();
-        if (currentDate.isAfter(task.getStart_at()) || currentDate.isAfter(task.getEnd_at())) {
+        LocalDate currentDate = LocalDate.now();
+        if (currentDate.isAfter(task.getStart_at().toLocalDate()) || currentDate.isAfter(task.getEnd_at().toLocalDate())) {
             throw new CurrentDateAfterInsertedDateException();
         }
-        if (task.getStart_at().isAfter(task.getEnd_at())) {
+        if (task.getStart_at().toLocalDate().isAfter(task.getEnd_at().toLocalDate())) {
             throw new StartDateIsAfterEndDateException();
         }
 

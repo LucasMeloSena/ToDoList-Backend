@@ -1,11 +1,13 @@
 package br.dev.lucasena.todolist.domain.task;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 public class TaskDTO {
@@ -22,8 +24,12 @@ public class TaskDTO {
     private LocalDateTime end_at;
 
     @NotNull(message = "A prioridade não pode ser nula.")
+    @Enumerated(EnumType.STRING)
     private TaskPriority priority;
 
-    @NotNull(message = "O id do usuário não pode ser nulo.")
+    @NotNull(message = "O status não pode ser nulo.")
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
+
     private UUID user_id;
 }

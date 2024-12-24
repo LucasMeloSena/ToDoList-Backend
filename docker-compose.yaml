@@ -1,10 +1,17 @@
 version: "3"
 services:
   postgres:
-    image: bitnami/postgresql
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: todolist
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRESQL_USERNAME=docker
-      - POSTGRESQL_PASSWORD=docker
-      - POSTGRESQL_DATABASE=todolist
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data

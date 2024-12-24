@@ -1,19 +1,28 @@
 package br.dev.lucasena.todolist.core.cases.task;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.dev.lucasena.todolist.core.exceptions.task.TaskNotFoundException;
 import br.dev.lucasena.todolist.domain.task.Task;
 import br.dev.lucasena.todolist.domain.user.User;
 import br.dev.lucasena.todolist.repositories.ITaskRepository;
-import org.junit.jupiter.api.*;
-import org.mockito.*;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 class FindTasksByUserUseCaseTest {
     @Mock
@@ -43,7 +52,7 @@ class FindTasksByUserUseCaseTest {
         List<Task> tasks = Arrays.asList(task1, task2);
         when(taskRepository.findByUserId(id)).thenReturn(Optional.of(tasks));
 
-        List<Task> foundTasks = findTasksByUserUseCase.execute(id);
+        List<Task> foundTasks = findTasksByUserUseCase.execute(id, null);
 
         assertNotNull(foundTasks);
         assertEquals(2, (long) foundTasks.size());
@@ -65,7 +74,7 @@ class FindTasksByUserUseCaseTest {
         when(taskRepository.findByUserId(id)).thenReturn(Optional.empty());
 
         assertThrows(TaskNotFoundException.class, () -> {
-            findTasksByUserUseCase.execute(id);
+            findTasksByUserUseCase.execute(id, null);
         });
 
         verify(taskRepository, times(1)).findByUserId(id);
