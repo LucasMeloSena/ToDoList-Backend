@@ -24,6 +24,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> {
           auth.requestMatchers("/task").permitAll()
                 .requestMatchers("/task/register").permitAll()
+                .requestMatchers("/task/{id}").permitAll()
                 .requestMatchers("/user").permitAll()
                 .requestMatchers("/user/register").permitAll()
                 .requestMatchers("/user/login").permitAll();
